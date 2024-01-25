@@ -1,12 +1,11 @@
 import express from 'express'
 import { getPayloadClient } from './get-payload'
-import { nextApp, nextHandler } from '@/next-utils'
-import 'dotenv/config'
+import { nextApp, nextHandler } from './next-utils'
 
 const app = express()
 const PORT = Number(process.env.PORT) || 3000
 
-const startServer = async () => {
+const start = async () => {
   const payload = await getPayloadClient({
     initOptions: {
       express: app,
@@ -29,4 +28,4 @@ const startServer = async () => {
   })
 }
 
-startServer()
+start()
