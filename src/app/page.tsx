@@ -31,7 +31,7 @@ export default function Home() {
         <div className="mx-auto flex max-w-3xl flex-col items-center py-20 text-center">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
             Your marketplace for high-quality{' '}
-            <span className="text-orange-600">digital assets</span>
+            <span className="text-blue-600">digital assets</span>
           </h1>
           <p className="mt-6 max-w-prose text-lg text-muted-foreground">
             Welcome to HippoKit. Every asset on our platform is verified by our
@@ -57,7 +57,7 @@ export default function Home() {
                 className="text-center md:flex md:items-start md:text-left lg:block lg:text-center"
               >
                 <div className="flex justify-center md:flex-shrink-0">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-orange-100 text-orange-900">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-orange-100 text-blue-900">
                     {<perk.icon className="h-1/3 w-1/3" />}
                   </div>
                 </div>
