@@ -1,12 +1,12 @@
-import Link from 'next/link'
-import MaxWidthWrapper from './MaxWidthWrapper'
-import { Icons } from './Icons'
-import NavItems from './NavItems'
-import { buttonVariants } from './ui/button'
 import Cart from './Cart'
+import { Icons } from './Icons'
+import MaxWidthWrapper from './MaxWidthWrapper'
+import NavItems from './NavItems'
+import UserAccountNav from './UserAccountNav'
+import { buttonVariants } from './ui/button'
 import { getServerSideUser } from '@/lib/payload-utils'
 import { cookies } from 'next/headers'
-import UserAccountNav from './UserAccountNav'
+import Link from 'next/link'
 
 const Navbar = async () => {
   const nextCookies = cookies()

@@ -1,8 +1,9 @@
 'use client'
-import { ChevronDown, Divide } from 'lucide-react'
-import { PRODUCT_CATEGORIES } from '@/config'
+
 import { Button } from './ui/button'
+import { PRODUCT_CATEGORIES } from '@/config'
 import { cn } from '@/lib/utils'
+import { ChevronDown } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -32,7 +33,7 @@ const NavItem = ({ category, handleOpen, isAnyOpen, isOpen }: NavItemProps) => {
         </Button>
       </div>
 
-      {isOpen ? (
+      {isOpen && (
         <div
           className={cn(
             'absolute inset-x-0 top-full text-sm text-muted-foreground',
@@ -81,7 +82,7 @@ const NavItem = ({ category, handleOpen, isAnyOpen, isOpen }: NavItemProps) => {
             </div>
           </div>
         </div>
-      ) : null}
+      )}
     </div>
   )
 }

@@ -1,10 +1,12 @@
 'use client'
-import { Product } from '@/payload-types'
-import { useEffect, useState } from 'react'
+
+import ImageSlider from './ImageSlider'
 import { Skeleton } from './ui/skeleton'
-import Link from 'next/link'
-import { cn, formatPrice } from '@/lib/utils'
 import { PRODUCT_CATEGORIES } from '@/config'
+import { cn, formatPrice } from '@/lib/utils'
+import { Product } from '@/payload-types'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 interface ProductListingProps {
   product: Product | null
@@ -26,6 +28,10 @@ const ProductListing = ({ product, index }: ProductListingProps) => {
     ({ value }) => value === product?.category
   )?.label
 
+  const validUrls = product?.images
+    .map(({ image }) => (typeof image === 'string' ? image : image.url))
+    .filter(Boolean) as string[]
+
   if (!product || !isVisible) {
     return <ProductPlaceholder />
   } else {
@@ -37,6 +43,7 @@ const ProductListing = ({ product, index }: ProductListingProps) => {
         })}
       >
         <div className="flex w-full flex-col">
+          <ImageSlider urls={validUrls} />
           <h3 className="mt-4 text-sm font-medium text-gray-700">
             {product.name}
           </h3>

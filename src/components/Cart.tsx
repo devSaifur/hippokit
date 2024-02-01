@@ -1,6 +1,7 @@
 'use client'
 
-import { ShoppingCart } from 'lucide-react'
+import { buttonVariants } from './ui/button'
+import { Separator } from './ui/separator'
 import {
   Sheet,
   SheetContent,
@@ -9,11 +10,10 @@ import {
   SheetTitle,
   SheetTrigger,
 } from './ui/sheet'
-import { Separator } from './ui/separator'
 import { formatPrice } from '@/lib/utils'
-import Link from 'next/link'
-import { buttonVariants } from './ui/button'
+import { ShoppingCart } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const Cart = () => {
   const itemCount = 0

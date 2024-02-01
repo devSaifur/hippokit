@@ -1,8 +1,8 @@
 import MaxWidthWrapper from '../components/MaxWidthWrapper'
-import Link from 'next/link'
+import ProductReel from '@/components/ProductReel'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { ArrowDownToLine, CheckCircle, Leaf } from 'lucide-react'
-import ProductReel from '@/components/ProductReel'
+import Link from 'next/link'
 
 const perks = [
   {

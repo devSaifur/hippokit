@@ -1,4 +1,8 @@
 'use client'
+
+import { User } from '../payload-types'
+import { Button } from './ui/button'
+import { useAuth } from '@/hooks/useAuth'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,10 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@radix-ui/react-dropdown-menu'
-import { Button } from './ui/button'
-import { User } from 'payload/dist/auth'
 import Link from 'next/link'
-import { useAuth } from '@/hooks/useAuth'
 
 const UserAccountNav = ({ user }: { user: User }) => {
   const { signOut } = useAuth()
