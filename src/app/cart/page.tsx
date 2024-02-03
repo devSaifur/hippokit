@@ -4,17 +4,31 @@ import { Button } from '@/components/ui/button'
 import { PRODUCT_CATEGORIES } from '@/config'
 import { useCart } from '@/hooks/use-cart'
 import { cn, formatPrice } from '@/lib/utils'
+import { trpc } from '@/trpc/client'
 import { Check, Loader2, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 const Page = () => {
+  const router = useRouter()
   const { items, removeItem } = useCart()
+
+  const { mutate: createCheckoutSession, isPending } =
+    trpc.payment.createSession.useMutation({
+      onSuccess: ({ url }) => {
+        if (url) router.push(url)
+      },
+    })
+
+  const productIds = items.map(({ product }) => product.id)
 
   const cartTotal = items.reduce(
     (total, { product }) => total + product.price,
     0
   )
+
+  const fee = 1
 
   return (
     <div className="bg-white">
@@ -141,6 +155,46 @@ const Page = () => {
                   )}
                 </p>
               </div>
+
+              <div className="flex items-center justify-between border-t border-gray-200 pt-4">
+                <div className="flex items-center text-sm text-muted-foreground">
+                  <span>Flat Transaction Fee</span>
+                </div>
+                <div className="text-sm font-medium text-gray-900">
+                  {items.length > 0 ? (
+                    formatPrice(fee)
+                  ) : (
+                    <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                  )}
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between border-t border-gray-200 pt-4">
+                <div className="text-base font-medium text-gray-900">
+                  Order Total
+                </div>
+                <div className="text-base font-medium text-gray-900">
+                  {items.length > 0 ? (
+                    formatPrice(cartTotal + fee)
+                  ) : (
+                    <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6">
+              <Button
+                onClick={() => createCheckoutSession({ productIds })}
+                disabled={isPending || items.length === 0}
+                size="lg"
+                className="w-full"
+              >
+                {isPending && (
+                  <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />
+                )}
+                Checkout
+              </Button>
             </div>
           </section>
         </div>
