@@ -1,17 +1,15 @@
 import './globals.css'
+import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
 import Providers from '@/components/Providers'
-import { cn } from '@/lib/utils'
+import { cn, constructMetadata } from '@/lib/utils'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Toaster } from 'sonner'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const metadata: Metadata = {
-  title: 'HippoKit',
-  description: 'A marketplace for high quality digital assets',
-}
+export const metadata: Metadata = constructMetadata()
 
 export default function RootLayout({
   children,
@@ -27,6 +25,7 @@ export default function RootLayout({
           <Providers>
             <Navbar />
             <div className="flex-1 flex-grow">{children}</div>
+            <Footer />
           </Providers>
         </main>
 

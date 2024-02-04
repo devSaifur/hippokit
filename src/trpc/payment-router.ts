@@ -10,9 +10,11 @@ export const paymentRouter = router({
     .input(z.object({ productIds: z.array(z.string()) }))
     .mutation(async ({ ctx, input }) => {
       const { user } = ctx
-      const { productIds } = input
+      let { productIds } = input
 
-      if (productIds.length === 0) throw new TRPCError({ code: 'BAD_REQUEST' })
+      if (productIds.length === 0) {
+        throw new TRPCError({ code: 'BAD_REQUEST' })
+      }
 
       const payload = await getPayloadClient()
 
@@ -74,7 +76,7 @@ export const paymentRouter = router({
         return { url: null }
       }
     }),
-  pollOrderStatus: publicProcedure
+  pollOrderStatus: privateProcedure
     .input(z.object({ orderId: z.string() }))
     .query(async ({ input }) => {
       const { orderId } = input
@@ -90,7 +92,9 @@ export const paymentRouter = router({
         },
       })
 
-      if (!orders.length) throw new TRPCError({ code: 'NOT_FOUND' })
+      if (!orders.length) {
+        throw new TRPCError({ code: 'NOT_FOUND' })
+      }
 
       const [order] = orders
 

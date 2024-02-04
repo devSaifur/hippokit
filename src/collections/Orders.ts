@@ -1,19 +1,26 @@
-import { CollectionConfig } from 'payload/types'
+import { Access, CollectionConfig } from 'payload/types'
+
+const yourOwn: Access = ({ req: { user } }) => {
+  if (user.role === 'admin') return true
+
+  return {
+    user: {
+      equals: user?.id,
+    },
+  }
+}
 
 export const Orders: CollectionConfig = {
   slug: 'orders',
   admin: {
-    useAsTitle: 'Your orders',
-    description: 'A summery of all your orders on HippoKit',
+    useAsTitle: 'Your Orders',
+    description: 'A summary of all your orders on DigitalHippo.',
   },
   access: {
-    read: ({ req }) => {
-      if (req.user.role === 'admin') return true
-      return { user: { equals: req.user.id } }
-    },
+    read: yourOwn,
     update: ({ req }) => req.user.role === 'admin',
-    create: ({ req }) => req.user.role === 'admin',
     delete: ({ req }) => req.user.role === 'admin',
+    create: ({ req }) => req.user.role === 'admin',
   },
   fields: [
     {
