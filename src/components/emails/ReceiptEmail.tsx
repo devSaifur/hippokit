@@ -16,7 +16,13 @@ import {
   render,
 } from '@react-email/components'
 import { format } from 'date-fns'
+import dotenv from 'dotenv'
+import path from 'path'
 import * as React from 'react'
+
+dotenv.config({
+  path: path.resolve(__dirname, '../../../.env'),
+})
 
 interface ReceiptEmailProps {
   email: string
@@ -46,7 +52,7 @@ export const ReceiptEmail = ({
                 src={`${process.env.NEXT_PUBLIC_SERVER_URL}/hippo-email-sent.png`}
                 width="100"
                 height="100"
-                alt="DigitalHippo"
+                alt="HippoKit"
               />
             </Column>
 

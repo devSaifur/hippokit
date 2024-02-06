@@ -107,14 +107,14 @@ const ThankYouPage = async ({ searchParams }: PageProps) => {
                   return (
                     <li key={product.id} className="flex space-x-6 py-6">
                       <div className="relative h-24 w-24">
-                        {typeof image !== 'string' && image.url ? (
+                        {typeof image !== 'string' && image.url && (
                           <Image
                             fill
                             src={image.url}
                             alt={`${product.name} image`}
                             className="flex-none rounded-md bg-gray-100 object-cover object-center"
                           />
-                        ) : null}
+                        )}
                       </div>
 
                       <div className="flex flex-auto flex-col justify-between">
@@ -124,7 +124,7 @@ const ThankYouPage = async ({ searchParams }: PageProps) => {
                           <p className="my-1">Category: {label}</p>
                         </div>
 
-                        {order._isPaid ? (
+                        {order._isPaid && (
                           <a
                             href={downloadUrl}
                             download={product.name}
@@ -132,7 +132,7 @@ const ThankYouPage = async ({ searchParams }: PageProps) => {
                           >
                             Download asset
                           </a>
-                        ) : null}
+                        )}
                       </div>
 
                       <p className="flex-none font-medium text-gray-900">

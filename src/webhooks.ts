@@ -65,17 +65,21 @@ export const stripeWebhookHandler = async (req: Request, res: Response) => {
 
     if (!order) return res.status(404).json({ error: 'No such order exists.' })
 
-    await payload.update({
-      collection: 'orders',
-      data: {
-        _isPaid: true,
-      },
-      where: {
-        id: {
-          equals: session.metadata.orderId,
+    await payload
+      .update({
+        collection: 'orders',
+        data: {
+          _isPaid: true,
         },
-      },
-    })
+        where: {
+          id: {
+            equals: session.metadata.orderId,
+          },
+        },
+      })
+      .catch((err) => {
+        if (err instanceof Error) console.error(err.message)
+      })
 
     // send receipt
     try {

@@ -1,6 +1,6 @@
 import { getPayloadClient } from '../get-payload'
 import { stripe } from '../lib/stripe'
-import { privateProcedure, publicProcedure, router } from './trpc'
+import { privateProcedure, router } from './trpc'
 import { TRPCError } from '@trpc/server'
 import type Stripe from 'stripe'
 import { z } from 'zod'
@@ -70,9 +70,6 @@ export const paymentRouter = router({
 
         return { url: stripeSession.url }
       } catch (err) {
-        if (err instanceof Error) {
-          throw new Error(err.message)
-        }
         return { url: null }
       }
     }),
@@ -83,21 +80,23 @@ export const paymentRouter = router({
 
       const payload = await getPayloadClient()
 
-      const { docs: orders } = await payload.find({
-        collection: 'orders',
-        where: {
-          id: {
-            equals: orderId,
+      try {
+        const { docs: orders } = await payload.find({
+          collection: 'orders',
+          where: {
+            id: {
+              equals: orderId,
+            },
           },
-        },
-      })
-
-      if (!orders.length) {
-        throw new TRPCError({ code: 'NOT_FOUND' })
+        })
+        if (!orders.length) {
+          throw new TRPCError({ code: 'NOT_FOUND' })
+        }
+        const [order] = orders
+        return { isPaid: order._isPaid }
+      } catch (err) {
+        if (err instanceof Error) console.error(err.message)
+        console.log(err)
       }
-
-      const [order] = orders
-
-      return { isPaid: order._isPaid }
     }),
 })

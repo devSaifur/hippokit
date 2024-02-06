@@ -11,7 +11,13 @@ import {
   Text,
   render,
 } from '@react-email/components'
+import dotenv from 'dotenv'
+import path from 'path'
 import * as React from 'react'
+
+dotenv.config({
+  path: path.resolve(__dirname, '../../../.env'),
+})
 
 interface EmailTemplateProps {
   actionLabel: string
