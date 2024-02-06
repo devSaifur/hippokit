@@ -3,16 +3,13 @@ import { getPayloadClient } from './get-payload'
 import { stripe } from './lib/stripe'
 import { Product } from './payload-types'
 import { WebhookRequest } from './server'
-import express from 'express'
+import type { Request, Response } from 'express'
 import { Resend } from 'resend'
 import type Stripe from 'stripe'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
-export const stripeWebhookHandler = async (
-  req: express.Request,
-  res: express.Response
-) => {
+export const stripeWebhookHandler = async (req: Request, res: Response) => {
   const webhookRequest = req as any as WebhookRequest
   const body = webhookRequest.rawBody
   const signature = req.headers['stripe-signature'] || ''

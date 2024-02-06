@@ -29,7 +29,7 @@ const start = async () => {
     },
   })
 
-  app.post('/api/webhook/stripe', webhookMiddleware, stripeWebhookHandler)
+  app.post('/api/webhooks/stripe', webhookMiddleware, stripeWebhookHandler)
 
   const payload = await getPayloadClient({
     initOptions: {
@@ -38,18 +38,6 @@ const start = async () => {
         cms.logger.info(`Admin URL ${cms.getAdminURL()}`)
       },
     },
-  })
-
-  const cartRouter = express.Router()
-
-  cartRouter.get('/', (req, res) => {
-    const request = req as PayloadRequest
-
-    if (!request.user) return res.redirect('/sign-in?origin=cart')
-
-    const parsedUrl = parse(req.url, true)
-
-    return nextApp.render(req, res, '/cart', parsedUrl.query)
   })
 
   if (process.env.NEXT_BUILD) {
@@ -64,6 +52,22 @@ const start = async () => {
 
     return
   }
+
+  const cartRouter = express.Router()
+
+  cartRouter.use(payload.authenticate)
+
+  cartRouter.get('/', (req, res) => {
+    const request = req as PayloadRequest
+
+    if (!request.user) return res.redirect('/sign-in?origin=cart')
+
+    const { query } = parse(req.url, true)
+
+    return nextApp.render(req, res, '/cart', query)
+  })
+
+  app.use('/cart', cartRouter)
 
   app.use(
     '/api/trpc',
