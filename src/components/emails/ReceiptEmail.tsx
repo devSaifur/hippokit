@@ -16,13 +16,7 @@ import {
   render,
 } from '@react-email/components'
 import { format } from 'date-fns'
-import dotenv from 'dotenv'
-import path from 'path'
 import * as React from 'react'
-
-dotenv.config({
-  path: path.resolve(__dirname, '../../../.env'),
-})
 
 interface ReceiptEmailProps {
   email: string
