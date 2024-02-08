@@ -1,11 +1,13 @@
 {
   "cSpell.words": [
+    "cliui",
     "copyfiles",
     "Embla",
     "hippokit",
     "Hono",
     "hookform",
-    "payloadcms"
+    "payloadcms",
+    "trivago"
   ],
   "typescript.tsdk": "node_modules/typescript/lib"
 }
