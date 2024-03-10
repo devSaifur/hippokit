@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 

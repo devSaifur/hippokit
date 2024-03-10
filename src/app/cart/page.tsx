@@ -9,6 +9,7 @@ import { Check, Loader2, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 const Page = () => {
   const router = useRouter()
@@ -17,7 +18,11 @@ const Page = () => {
   const { mutate: createCheckoutSession, isPending } =
     trpc.payment.createSession.useMutation({
       onSuccess: ({ url }) => {
+        console.log(url)
         if (url) router.push(url)
+      },
+      onError: (err) => {
+        toast.error(err.message)
       },
     })
 

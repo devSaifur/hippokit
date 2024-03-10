@@ -1,12 +1,7 @@
-import path from 'path'
-import dotenv from 'dotenv'
-import payload, { Payload } from 'payload'
-import type { InitOptions } from 'payload/config'
+import 'dotenv/config'
 import nodemailer from 'nodemailer'
-
-dotenv.config({
-  path: path.resolve(__dirname, '../.env'),
-})
+import payload, { Payload } from 'payload'
+import { InitOptions } from 'payload/config'
 
 const transporter = nodemailer.createTransport({
   host: 'smtp.resend.com',

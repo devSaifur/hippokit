@@ -1,6 +1,6 @@
-import { PRODUCT_CATEGORIES } from '../../config/index'
-import { stripe } from '../../lib/stripe'
-import { Product } from '../../payload-types'
+import { PRODUCT_CATEGORIES } from '../../../config/index'
+import { stripe } from '../../../lib/stripe'
+import { Product } from '../../../payload-types'
 import { CollectionConfig } from 'payload/types'
 
 export const Products: CollectionConfig = {

@@ -1,8 +1,9 @@
 import { ReceiptEmailHtml } from './components/emails/ReceiptEmail'
-import { getPayloadClient } from './get-payload'
 import { stripe } from './lib/stripe'
 import { Product } from './payload-types'
+import { getPayloadClient } from './payload/get-payload'
 import { WebhookRequest } from './server'
+import 'dotenv/config'
 import type { Request, Response } from 'express'
 import { Resend } from 'resend'
 import type Stripe from 'stripe'
@@ -19,7 +20,7 @@ export const stripeWebhookHandler = async (req: Request, res: Response) => {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET || ''
+      process.env.STRIPE_WEBHOOK_SECRET!
     )
   } catch (err) {
     return res
@@ -65,21 +66,17 @@ export const stripeWebhookHandler = async (req: Request, res: Response) => {
 
     if (!order) return res.status(404).json({ error: 'No such order exists.' })
 
-    await payload
-      .update({
-        collection: 'orders',
-        data: {
-          _isPaid: true,
+    await payload.update({
+      collection: 'orders',
+      data: {
+        _isPaid: true,
+      },
+      where: {
+        id: {
+          equals: session.metadata.orderId,
         },
-        where: {
-          id: {
-            equals: session.metadata.orderId,
-          },
-        },
-      })
-      .catch((err) => {
-        if (err instanceof Error) console.error(err.message)
-      })
+      },
+    })
 
     // send receipt
     try {

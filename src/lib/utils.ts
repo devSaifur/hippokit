@@ -1,4 +1,5 @@
 import { type ClassValue, clsx } from 'clsx'
+import 'dotenv/config'
 import { Metadata } from 'next'
 import { twMerge } from 'tailwind-merge'
 

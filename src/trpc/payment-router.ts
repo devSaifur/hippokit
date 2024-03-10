@@ -1,7 +1,8 @@
-import { getPayloadClient } from '../get-payload'
 import { stripe } from '../lib/stripe'
+import { getPayloadClient } from '../payload/get-payload'
 import { privateProcedure, router } from './trpc'
 import { TRPCError } from '@trpc/server'
+import 'dotenv/config'
 import type Stripe from 'stripe'
 import { z } from 'zod'
 
@@ -45,14 +46,6 @@ export const paymentRouter = router({
           price: product.priceId!,
           quantity: 1,
         })
-      })
-
-      line_items.push({
-        price: 'price_1OfRMDEB0Bt3rIK1V5LcSQBK',
-        quantity: 1,
-        adjustable_quantity: {
-          enabled: false,
-        },
       })
 
       try {
