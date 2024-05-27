@@ -3,10 +3,15 @@ import { stripe } from './lib/stripe'
 import { Product } from './payload-types'
 import { getPayloadClient } from './payload/get-payload'
 import { WebhookRequest } from './server'
-import 'dotenv/config'
+import dotenv from 'dotenv'
 import type { Request, Response } from 'express'
+import path from 'path'
 import { Resend } from 'resend'
 import type Stripe from 'stripe'
+
+dotenv.config({
+  path: path.resolve(__dirname, '../.env'),
+})
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 

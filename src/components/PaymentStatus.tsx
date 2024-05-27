@@ -17,7 +17,8 @@ const PaymentStatus = ({ orderEmail, orderId, isPaid }: PaymentStatusProps) => {
     { orderId },
     {
       enabled: isPaid === false,
-      refetchInterval: ({ state }) => (state.data?.isPaid ? false : 1000),
+      refetchInterval: ({ state }: { state: any }) =>
+        state.data?.isPaid ? false : 1000,
     }
   )
 
