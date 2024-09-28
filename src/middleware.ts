@@ -1,5 +1,5 @@
 import { getServerSideUser } from './lib/payload-utils'
-import { NextRequest, NextResponse } from 'next/server.js'
+import { type NextRequest, NextResponse } from 'next/server.js'
 
 export async function middleware(req: NextRequest) {
   const { nextUrl, cookies } = req

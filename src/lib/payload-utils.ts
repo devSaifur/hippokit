@@ -1,6 +1,6 @@
 import { User } from '../payload-types'
-import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies'
-import { NextRequest } from 'next/server'
+import type { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies'
+import type { NextRequest } from 'next/server'
 
 export async function getServerSideUser(
   cookies: NextRequest['cookies'] | ReadonlyRequestCookies

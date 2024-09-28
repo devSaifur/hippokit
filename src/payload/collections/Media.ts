@@ -1,5 +1,5 @@
-import { User } from 'payload/dist/auth'
-import { Access, CollectionConfig } from 'payload/types'
+import type { User } from 'payload/dist/auth'
+import type { Access, CollectionConfig } from 'payload/types'
 
 const isAdminHasAccessToImage =
   (): Access =>

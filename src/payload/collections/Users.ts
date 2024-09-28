@@ -1,5 +1,5 @@
 import { PrimaryActionEmailHtml } from '../../components/emails/PrimaryActionEmail'
-import { Access, CollectionConfig } from 'payload/types'
+import type { Access, CollectionConfig } from 'payload/types'
 
 const adminAndUser: Access = ({ req: { user } }) => {
   if (user.role === 'admin') return true

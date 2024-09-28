@@ -1,5 +1,5 @@
-import { User } from '@/payload-types'
-import { Access, CollectionConfig } from 'payload/types'
+import type { User } from '@/payload-types'
+import type { Access, CollectionConfig } from 'payload/types'
 
 const yourOwnAndPurchased: Access = async ({ req }) => {
   const user = req.user as User | null
