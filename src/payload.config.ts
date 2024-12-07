@@ -1,13 +1,21 @@
-import { Media } from '../payload/collections/Media'
-import { Orders } from '../payload/collections/Orders'
-import { ProductFile } from '../payload/collections/ProductFile'
-import { Users } from '../payload/collections/Users'
-import { Products } from '../payload/collections/products/Products'
+import { Media } from './collections/Media'
+import { Orders } from './collections/Orders'
+import { ProductFile } from './collections/ProductFile'
+import { Users } from './collections/Users'
+import { Products } from './collections/products/Products'
 import { webpackBundler } from '@payloadcms/bundler-webpack'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { slateEditor } from '@payloadcms/richtext-slate'
-import path from 'path'
 import { buildConfig } from 'payload/config'
+
+import path from 'path'
+import dotenv from 'dotenv'
+
+dotenv.config({
+  path: path.resolve(__dirname, '../.env'),
+})
+
+console.log(process.env.STRIPE_SECRET_KEY)
 
 export default buildConfig({
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL || '',

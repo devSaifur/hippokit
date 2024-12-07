@@ -1,5 +1,5 @@
 import { formatPrice } from '../../lib/utils'
-import { Product } from '../../payload-types'
+import type { Product } from '../../payload-types'
 import {
   Body,
   Container,

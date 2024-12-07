@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  webpack: (config) => {
+    config.externals.push('sharp')
+    return config
+  },
   images: {
     remotePatterns: [
       {

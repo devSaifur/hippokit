@@ -1,5 +1,5 @@
 import { QueryValidator } from '../lib/validators/query-validator'
-import { getPayloadClient } from '../payload/get-payload'
+import { getPayloadClient } from '../get-payload'
 import { authRouter } from './auth-router'
 import { paymentRouter } from './payment-router'
 import { publicProcedure, router } from './trpc'

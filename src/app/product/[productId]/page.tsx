@@ -4,7 +4,8 @@ import MaxWidthWrapper from '@/components/MaxWidthWrapper'
 import ProductReel from '@/components/ProductReel'
 import { PRODUCT_CATEGORIES } from '@/config'
 import { formatPrice } from '@/lib/utils'
-import { getPayloadClient } from '@/payload/get-payload'
+import { getPayloadClient } from '@/get-payload'
+import type { Product } from '@/payload-types'
 import { Check, Shield } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -37,7 +38,7 @@ const Page = async ({ params }: PageProps) => {
     },
   })
 
-  const [product] = docs
+  const [product] = docs as any as Product[]
 
   if (!product) return notFound()
 

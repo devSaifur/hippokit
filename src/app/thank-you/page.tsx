@@ -2,8 +2,8 @@ import PaymentStatus from '@/components/PaymentStatus'
 import { PRODUCT_CATEGORIES } from '@/config'
 import { getServerSideUser } from '@/lib/payload-utils'
 import { formatPrice } from '@/lib/utils'
-import { Product, ProductFile, User } from '@/payload-types'
-import { getPayloadClient } from '@/payload/get-payload'
+import type { Order, Product, ProductFile, User } from '@/payload-types'
+import { getPayloadClient } from '@/get-payload'
 import { cookies } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -32,7 +32,7 @@ const ThankYouPage = async ({ searchParams }: PageProps) => {
     },
   })
 
-  const [order] = orders
+  const [order] = orders as any as Order[]
 
   if (!order) return notFound()
 

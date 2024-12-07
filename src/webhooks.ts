@@ -1,7 +1,7 @@
 import { ReceiptEmailHtml } from './components/emails/ReceiptEmail'
 import { stripe } from './lib/stripe'
-import { Product } from './payload-types'
-import { getPayloadClient } from './payload/get-payload'
+import type { Product } from './payload-types'
+import { getPayloadClient } from './get-payload'
 import { WebhookRequest } from './server'
 import dotenv from 'dotenv'
 import type { Request, Response } from 'express'
@@ -95,7 +95,7 @@ export const stripeWebhookHandler = async (req: Request, res: Response) => {
           email: user.email as string,
           orderId: session.metadata.orderId,
           products: order.products as Product[],
-        }),
+        }) as any,
       })
       res.status(200).json({ data })
     } catch (error) {

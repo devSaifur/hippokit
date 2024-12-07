@@ -1,8 +1,7 @@
 import { stripe } from '../lib/stripe'
-import { getPayloadClient } from '../payload/get-payload'
+import { getPayloadClient } from '../get-payload'
 import { privateProcedure, router } from './trpc'
 import { TRPCError } from '@trpc/server'
-import 'dotenv/config'
 import type Stripe from 'stripe'
 import { z } from 'zod'
 

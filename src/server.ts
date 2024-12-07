@@ -1,5 +1,5 @@
 import { nextApp, nextHandler } from './next-utils'
-import { getPayloadClient } from './payload/get-payload'
+import { getPayloadClient } from './get-payload'
 import { appRouter } from './trpc'
 import { stripeWebhookHandler } from './webhooks'
 import * as trpcExpress from '@trpc/server/adapters/express'

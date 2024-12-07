@@ -1,5 +1,5 @@
-import { PRODUCT_CATEGORIES } from '../../../config'
-import { stripe } from '../../../lib/stripe'
+import { PRODUCT_CATEGORIES } from '../../config'
+import { stripe } from '../../lib/stripe'
 import type { Product, User } from '../../payload-types'
 import type {
   AfterChangeHook,
