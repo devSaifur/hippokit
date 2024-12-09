@@ -34,7 +34,7 @@ export const authRoutes = new Hono()
         },
       })
 
-      return c.json({ success: true, sentToEmail: email })
+      return c.json({ message: 'User created successfully' }, 201)
     } catch (err) {
       console.error(err)
       return c.json({ message: 'Internal server error' }, 500)

@@ -1,11 +1,12 @@
-import './globals.css'
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import { Toaster } from 'sonner'
+
 import { Footer } from '@/components/footer'
 import { Navbar } from '@/components/navbar'
 import { Providers } from '@/components/providers'
 import { cn, constructMetadata } from '@/lib/utils'
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import { Toaster } from 'sonner'
+import '@/styles/index.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
