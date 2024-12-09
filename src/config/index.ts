@@ -41,4 +41,4 @@ export const PRODUCT_CATEGORIES = [
       },
     ],
   },
-]
+] as const

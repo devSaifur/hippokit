@@ -1,45 +1,50 @@
-import { Media } from './collections/Media'
-import { Orders } from './collections/Orders'
-import { ProductFile } from './collections/ProductFile'
-import { Users } from './collections/Users'
-import { Products } from './collections/products/Products'
-import { webpackBundler } from '@payloadcms/bundler-webpack'
+import { buildConfig } from 'payload'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
-import { slateEditor } from '@payloadcms/richtext-slate'
-import { buildConfig } from 'payload/config'
+import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import sharp from 'sharp'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-import path from 'path'
-import dotenv from 'dotenv'
+import { Users } from './collections/Users'
+import { Media } from './collections/Media'
+import { Products } from './collections/Products'
+import { ProductFile } from './collections/ProductFile'
+import { Orders } from './collections/Orders'
 
-dotenv.config({
-  path: path.resolve(__dirname, '../.env'),
-})
-
-console.log(process.env.STRIPE_SECRET_KEY)
+const filename = fileURLToPath(import.meta.url)
+const dirname = path.dirname(filename)
 
 export default buildConfig({
-  serverURL: process.env.NEXT_PUBLIC_SERVER_URL || '',
-  collections: [Users, Products, Media, ProductFile, Orders],
-  routes: {
-    admin: '/sell',
-  },
+  secret: process.env.PAYLOAD_SECRET,
+  collections: [Users, Products, ProductFile, Orders, Media],
   admin: {
     user: 'users',
-    bundler: webpackBundler(),
     meta: {
       titleSuffix: '- HippoKit',
-      favicon: '/favicon.ico',
-      ogImage: '/thumbnail.jpg',
+      openGraph: {
+        title: 'HippoKit',
+        images: [
+          {
+            url: '/thumbnail.jpg',
+          },
+        ],
+      },
+      icons: [
+        {
+          fetchPriority: 'high',
+          type: 'image/png',
+          sizes: '16x16',
+          url: '/favicon.ico',
+        },
+      ],
     },
   },
-  rateLimit: {
-    max: 2000,
-  },
-  editor: slateEditor({}),
-  db: mongooseAdapter({
-    url: process.env.MONGODB_URL!,
-  }),
+  editor: lexicalEditor(),
   typescript: {
-    outputFile: path.resolve(__dirname, 'payload-types.ts'),
+    outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
+  db: mongooseAdapter({
+    url: process.env.MONGODB_URL,
+  }),
+  sharp,
 })

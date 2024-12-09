@@ -1,5 +1,4 @@
 import { type ClassValue, clsx } from 'clsx'
-import 'dotenv/config'
 import { Metadata } from 'next'
 import { twMerge } from 'tailwind-merge'
 
@@ -12,7 +11,7 @@ export function formatPrice(
   options: {
     currency?: 'USD' | 'EUR' | 'GBP' | 'BDT'
     notation?: Intl.NumberFormatOptions['notation']
-  } = {}
+  } = {},
 ) {
   const { currency = 'USD', notation = 'compact' } = options
   const numericPrice = typeof price === 'string' ? parseFloat(price) : price

@@ -6,6 +6,9 @@
 .pnp.js
 .yarn/install-state.gz
 
+/.idea/*
+!/.idea/runConfigurations
+
 # testing
 /coverage
 
@@ -15,7 +18,6 @@
 
 # production
 /build
-/dist
 
 # misc
 .DS_Store
@@ -28,7 +30,6 @@ yarn-error.log*
 
 # local env files
 .env*.local
-.env
 
 # vercel
 .vercel
@@ -37,6 +38,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-compose.yaml
+.env
 
-.vscode
+/media

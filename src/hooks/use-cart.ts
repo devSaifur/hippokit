@@ -28,6 +28,6 @@ export const useCart = create<CartState>()(
       },
       clearCart: () => set({ items: [] }),
     }),
-    { name: 'cart-storage', storage: createJSONStorage(() => localStorage) }
-  )
+    { name: 'cart-storage', storage: createJSONStorage(() => localStorage) },
+  ),
 )
