@@ -6,8 +6,6 @@ import { authRoutes } from '@/server/routes/auth'
 import { productsRoutes } from '@/server/routes/products'
 import { webhooks } from '@/server/routes/webhooks'
 
-export const runtime = 'edge'
-
 const api = new Hono()
   .basePath('/api/next')
   .route('/auth', authRoutes)

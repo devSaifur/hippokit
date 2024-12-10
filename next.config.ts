@@ -20,6 +20,9 @@ const nextConfig: NextConfig = {
     ] as RemotePattern[],
   },
   reactStrictMode: true,
+  experimental: {
+    reactCompiler: false,
+  },
 }
 
 export default withPayload(nextConfig)

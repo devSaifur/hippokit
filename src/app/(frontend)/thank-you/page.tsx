@@ -19,9 +19,8 @@ interface PageProps {
 
 export default async function ThankYouPage({ searchParams }: PageProps) {
   const orderId = searchParams.orderId
-  const nextCookies = await cookies()
 
-  const { user } = await getServerSideUser(nextCookies)
+  const { user } = await getServerSideUser()
   const payload = await getPayload({ config })
 
   const { docs: orders } = await payload.find({

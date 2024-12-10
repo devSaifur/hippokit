@@ -6,12 +6,10 @@ import { NavItems } from './nav-items'
 import { UserAccountNav } from './user-account-nav'
 import { buttonVariants } from './ui/button'
 import { getServerSideUser } from '@/lib/payload-utils'
-import { cookies } from 'next/headers'
 import Link from 'next/link'
 
 export async function Navbar() {
-  const nextCookies = await cookies()
-  const { user } = await getServerSideUser(nextCookies)
+  const { user } = await getServerSideUser()
 
   return (
     <div className="sticky inset-x-0 top-0 z-50 h-16 bg-white">
