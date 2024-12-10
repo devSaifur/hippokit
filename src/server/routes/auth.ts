@@ -1,7 +1,7 @@
 import { Hono } from 'hono'
 import { zValidator } from '@hono/zod-validator'
 import { z } from 'zod'
-import { getPayload } from 'payload'
+import { getPayload, type PayloadRequest } from 'payload'
 
 import { AuthCredentialsValidator } from '@/lib/validators/account-credentials-validator'
 import config from '@/payload.config'

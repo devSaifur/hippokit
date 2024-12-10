@@ -29,8 +29,6 @@ interface ReceiptEmailProps {
 export const ReceiptEmail = ({ email, date, orderId, products }: ReceiptEmailProps) => {
   const total = products.reduce((acc, curr) => acc + curr.price, 0) + 1
 
-  console.log(`email 2 ${process.env.NEXT_PUBLIC_SERVER_URL}`)
-
   return (
     <Html>
       <Head />

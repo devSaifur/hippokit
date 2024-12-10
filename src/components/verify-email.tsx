@@ -1,6 +1,6 @@
 'use client'
 
-import { useMutation } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { buttonVariants } from './ui/button'
 import { Loader2, XCircle } from 'lucide-react'
 import Image from 'next/image'
@@ -13,9 +13,9 @@ interface VerifyEmailProps {
 }
 
 export const VerifyEmail = ({ token }: VerifyEmailProps) => {
-  const { isPending, isSuccess, error } = useMutation({
-    mutationKey: ['auth/verify-email', { token }],
-    mutationFn: async () => {
+  const { isPending, isSuccess, error } = useQuery({
+    queryKey: ['auth/verify-email'],
+    queryFn: async () => {
       const res = await api.auth['verify-email'].$post({ json: { token } })
       if (!res.ok) {
         toast.error('Something went wrong while verifying the email')

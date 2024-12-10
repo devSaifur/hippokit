@@ -1,15 +1,21 @@
+'use client'
+
+import { use } from 'react'
 import { VerifyEmail } from '@/components/verify-email'
 import Image from 'next/image'
 
 interface PageProps {
-  searchParams: {
+  searchParams: Promise<{
     [key: string]: string | string[] | undefined
-  }
+  }>
 }
 
-export default function VerifyEmailPage({ searchParams }: PageProps) {
+export default function VerifyEmailPage(props: PageProps) {
+  const searchParams = use(props.searchParams)
   const token = searchParams.token
   const toEmail = searchParams.to
+
+  console.log({ token })
 
   return (
     <div className="container relative flex flex-col items-center justify-center pt-20 lg:px-0">
