@@ -6,9 +6,10 @@ declare global {
       PAYLOAD_SECRET: string
       NEXT_PUBLIC_SERVER_URL: string
       MONGODB_URL: string
-      RESEND_API_KEY: string
       STRIPE_SECRET_KEY: string
       STRIPE_WEBHOOK_SECRET: string
+      EMAIL_APP_USER: string
+      EMAIL_APP_PASSWORD: string
     }
   }
 }
