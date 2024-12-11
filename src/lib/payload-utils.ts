@@ -10,6 +10,9 @@ export async function getServerSideUser() {
       Authorization: `JWT ${token}`,
     },
     cache: 'force-cache',
+    next: {
+      tags: ['user'],
+    },
   })
 
   const { user } = (await meRes.json()) as { user: User | null }

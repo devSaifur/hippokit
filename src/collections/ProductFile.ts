@@ -21,8 +21,9 @@ export const ProductFile: CollectionConfig = {
     read: async ({ req }) => {
       const user = req.user
 
-      if (user?.role === 'admin') return true
       if (!user) return false
+
+      if (user.role === 'admin') return true
 
       const { docs: products } = await req.payload.find({
         collection: 'products',
@@ -80,7 +81,6 @@ export const ProductFile: CollectionConfig = {
     ],
   },
   upload: {
-    /// NOTE: This is changed in the update
     staticDir: 'product_files',
     mimeTypes: ['image/*', 'font/*', 'application/postscript'],
   },

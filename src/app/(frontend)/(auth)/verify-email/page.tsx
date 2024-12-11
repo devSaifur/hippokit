@@ -15,8 +15,6 @@ export default function VerifyEmailPage(props: PageProps) {
   const token = searchParams.token
   const toEmail = searchParams.to
 
-  console.log({ token })
-
   return (
     <div className="container relative flex flex-col items-center justify-center pt-20 lg:px-0">
       <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">

@@ -22,7 +22,7 @@ export const ProductReel = (props: ProductReelProps) => {
   const { data: queryResults, isPending } = useInfiniteQuery({
     queryKey: ['products', query],
     queryFn: async () => {
-      const res = await api.products.$get({
+      const res = await api.products.$post({
         json: {
           limit: query.limit ?? FALLBACK_LIMIT,
           query,

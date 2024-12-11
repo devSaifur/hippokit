@@ -69,7 +69,7 @@ export default function SignInPage() {
 
       router.push('/')
     },
-    onError: (err) => {
+    onError: () => {
       toast.error('Something went wrong. Please try again')
     },
   })

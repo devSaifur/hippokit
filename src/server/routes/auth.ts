@@ -1,10 +1,12 @@
 import { Hono } from 'hono'
 import { zValidator } from '@hono/zod-validator'
 import { z } from 'zod'
-import { getPayload, type PayloadRequest } from 'payload'
+import { getPayload } from 'payload'
+import { cookies } from 'next/headers'
 
 import { AuthCredentialsValidator } from '@/lib/validators/account-credentials-validator'
 import config from '@/payload.config'
+import { revalidateTag } from 'next/cache'
 
 export const authRoutes = new Hono()
   .post('/sign-up', zValidator('json', AuthCredentialsValidator), async (c) => {
@@ -65,12 +67,23 @@ export const authRoutes = new Hono()
     try {
       const payload = await getPayload({ config })
 
-      await payload.login({
+      const { token } = await payload.login({
         collection: 'users',
         data: { email, password },
       })
-      return c.json({ success: true })
+
+      if (!token) {
+        return c.json({ message: 'Invalid credentials' }, 401)
+      }
+
+      const cookieStore = await cookies()
+      cookieStore.set('payload-token', token, { secure: true })
+
+      revalidateTag('user')
+
+      return c.json({ success: true }, 200)
     } catch (err) {
+      console.error(err)
       return c.json({ message: 'Something went wrong' }, 500)
     }
   })

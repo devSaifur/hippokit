@@ -6,7 +6,7 @@ import { z } from 'zod'
 import { QueryValidator } from '@/lib/validators/query-validator'
 import config from '@/payload.config'
 
-export const productsRoutes = new Hono().get(
+export const productsRoutes = new Hono().post(
   '/',
   zValidator(
     'json',
@@ -20,8 +20,6 @@ export const productsRoutes = new Hono().get(
     const { cursor, query } = c.req.valid('json')
     const { sort, limit, ...queryOpts } = query
 
-    const payload = await getPayload({ config })
-
     const parsedQueryOptions: Record<string, { equals: string }> = {}
 
     Object.entries(queryOpts).forEach(([key, value]) => {
@@ -29,6 +27,8 @@ export const productsRoutes = new Hono().get(
     })
 
     const page = Number(cursor) || 1
+
+    const payload = await getPayload({ config })
 
     const {
       docs: items,
