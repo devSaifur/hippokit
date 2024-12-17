@@ -1,5 +1,6 @@
 import { PRODUCT_CATEGORIES } from '@/config'
 import type { CollectionConfig, Access } from 'payload'
+import type { Product } from '@/payload-types'
 import { stripe } from '@/lib/stripe'
 
 const isAdminOrHasAccess =
@@ -32,35 +33,36 @@ export const Products: CollectionConfig = {
     beforeChange: [
       async ({ req, data }) => {
         const user = req.user
-        return { data, user: user?.id }
+        return { data: data, user: user?.id }
       },
       async ({ operation, data }) => {
+        const product = data.data as Product
         if (operation === 'create') {
           const createdProduct = await stripe.products.create({
-            name: data.name,
+            name: product.name,
             default_price_data: {
               currency: 'USD',
-              unit_amount: Math.round(data.price * 100),
+              unit_amount: Math.round(product.price * 100),
             },
           })
 
           const updated = {
-            ...data,
+            ...product,
             stripeId: createdProduct.id,
             priceId: createdProduct.default_price as string,
           }
 
           return updated
         } else if (operation === 'update') {
-          const updatedProduct = await stripe.products.update(data.stripeId!, {
+          const updatedProduct = await stripe.products.update(product.stripeId!, {
             name: data.name,
-            default_price: data.priceId!,
+            default_price: product.priceId!,
           })
 
           const updated = {
             ...data,
             stripeId: updatedProduct.id,
-            priceId: updatedProduct.default_price as string,
+            priceId: updatedProduct.default_price,
           }
 
           return updated

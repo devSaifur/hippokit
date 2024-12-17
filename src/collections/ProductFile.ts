@@ -1,7 +1,11 @@
 import type { CollectionConfig } from 'payload'
 
-export const ProductFile: CollectionConfig = {
+export const ProductFiles: CollectionConfig = {
   slug: 'product_files',
+  labels: {
+    singular: 'Product File',
+    plural: 'Product Files',
+  },
   fields: [
     {
       name: 'user',

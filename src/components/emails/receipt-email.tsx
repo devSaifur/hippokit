@@ -39,7 +39,7 @@ export const ReceiptEmail = ({ email, date, orderId, products }: ReceiptEmailPro
           <Section>
             <Column>
               <Img
-                src={`${process.env.NEXT_PUBLIC_SERVER_URL}/hippo-email-sent.png`}
+                src="https://utfs.io/f/gay0PY1pRDL5ton98wu58lYGN9y7EjbWgVMZ2o6fznULva0r"
                 width="100"
                 height="100"
                 alt="HippoKit"

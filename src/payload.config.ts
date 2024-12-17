@@ -10,7 +10,7 @@ import { fileURLToPath } from 'url'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Products } from './collections/Products'
-import { ProductFile } from './collections/ProductFile'
+import { ProductFiles } from './collections/ProductFile'
 import { Orders } from './collections/Orders'
 
 import { transporter } from '@/lib/nodemailer'
@@ -20,7 +20,7 @@ const dirname = path.dirname(filename)
 
 export default buildConfig({
   secret: process.env.PAYLOAD_SECRET,
-  collections: [Users, Products, ProductFile, Orders, Media],
+  collections: [Users, Products, ProductFiles, Orders, Media],
   admin: {
     user: 'users',
     meta: {
@@ -49,6 +49,9 @@ export default buildConfig({
   },
   db: mongooseAdapter({
     url: process.env.MONGODB_URL,
+    connectOptions: {
+      dbName: 'hippokit',
+    },
   }),
   email: nodemailerAdapter({
     defaultFromAddress: 'hippokit@hippokit.dev',

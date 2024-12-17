@@ -26,7 +26,13 @@ export const EmailTemplate = ({ actionLabel, buttonText, href }: EmailTemplatePr
       <Preview>The marketplace for high-quality digital goods.</Preview>
       <Body style={main}>
         <Container style={container}>
-          <Img src="/hippo-email-sent.png" width="150" height="150" alt="HippoKit" style={logo} />
+          <Img
+            src="https://utfs.io/f/gay0PY1pRDL5ton98wu58lYGN9y7EjbWgVMZ2o6fznULva0r"
+            width="150"
+            height="150"
+            alt="HippoKit"
+            style={logo}
+          />
           <Text style={paragraph}>Hi there,</Text>
           <Text style={paragraph}>
             Welcome to HippoKit, the marketplace for high quality digital goods. Use the button

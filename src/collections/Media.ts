@@ -10,7 +10,7 @@ const isAdminOrHasAccessToImages =
 
     return {
       user: {
-        equals: req.user?.id,
+        equals: user.id,
       },
     }
   }
@@ -28,11 +28,11 @@ export const Media: CollectionConfig = {
     read: async ({ req }) => {
       const referer = req.referrer
 
-      if (!req.user || !referer?.includes('sell')) {
+      if (!req.user || !referer?.includes('admin')) {
         return true
       }
 
-      return await isAdminOrHasAccessToImages()({ req })
+      return isAdminOrHasAccessToImages()({ req })
     },
     delete: isAdminOrHasAccessToImages(),
     update: isAdminOrHasAccessToImages(),

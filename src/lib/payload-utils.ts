@@ -17,6 +17,5 @@ export async function getServerSideUser() {
 
   const { user } = (await meRes.json()) as { user: User | null }
 
-  console.log({ user })
   return { user }
 }
