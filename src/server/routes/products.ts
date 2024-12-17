@@ -40,6 +40,7 @@ export const productsRoutes = new Hono().post(
         approvedForSale: {
           equals: 'approved',
         },
+        ...parsedQueryOptions,
       },
       sort,
       depth: 1,

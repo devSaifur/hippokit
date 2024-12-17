@@ -1,5 +1,6 @@
 import { PRODUCT_CATEGORIES } from '@/config'
 import type { CollectionConfig, Access } from 'payload'
+import { stripe } from '@/lib/stripe'
 
 const isAdminOrHasAccess =
   (): Access =>
@@ -27,6 +28,75 @@ const isAdminOrHasAccess =
 
 export const Products: CollectionConfig = {
   slug: 'products',
+  hooks: {
+    beforeChange: [
+      async ({ req, data }) => {
+        const user = req.user
+        return { data, user: user?.id }
+      },
+      async ({ operation, data }) => {
+        if (operation === 'create') {
+          const createdProduct = await stripe.products.create({
+            name: data.name,
+            default_price_data: {
+              currency: 'USD',
+              unit_amount: Math.round(data.price * 100),
+            },
+          })
+
+          const updated = {
+            ...data,
+            stripeId: createdProduct.id,
+            priceId: createdProduct.default_price as string,
+          }
+
+          return updated
+        } else if (operation === 'update') {
+          const updatedProduct = await stripe.products.update(data.stripeId!, {
+            name: data.name,
+            default_price: data.priceId!,
+          })
+
+          const updated = {
+            ...data,
+            stripeId: updatedProduct.id,
+            priceId: updatedProduct.default_price as string,
+          }
+
+          return updated
+        }
+      },
+    ],
+    afterChange: [
+      async ({ req, doc }) => {
+        const fullUser = await req.payload.findByID({
+          collection: 'users',
+          id: req.user?.id as string,
+        })
+
+        if (fullUser && typeof fullUser === 'object') {
+          const { products } = fullUser
+
+          const allIDs = [
+            ...(products?.map((product) => (typeof product === 'object' ? product.id : product)) ||
+              []),
+          ]
+
+          const createdProductIDs = allIDs.filter((id, index) => allIDs.indexOf(id) === index)
+
+          const dataToUpdate = [...createdProductIDs, doc.id]
+
+          await req.payload.update({
+            collection: 'users',
+            id: fullUser.id,
+            data: {
+              products: dataToUpdate,
+            },
+          })
+        }
+      },
+    ],
+  },
   fields: [
     {
       name: 'user',
