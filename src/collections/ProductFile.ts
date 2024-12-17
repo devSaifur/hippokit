@@ -18,8 +18,23 @@ export const ProductFiles: CollectionConfig = {
       required: true,
     },
   ],
+  upload: {
+    staticDir: 'product_files',
+    mimeTypes: ['image/*', 'font/*', 'application/postscript'],
+  },
   admin: {
     hidden: ({ user }) => user?.role !== 'admin',
+  },
+  hooks: {
+    beforeChange: [
+      ({ req, data }) => {
+        const user = req.user
+        return {
+          ...data,
+          user: user?.id,
+        }
+      },
+    ],
   },
   access: {
     read: async ({ req }) => {
@@ -72,20 +87,5 @@ export const ProductFiles: CollectionConfig = {
         },
       }
     },
-  },
-  hooks: {
-    beforeChange: [
-      ({ req, data }) => {
-        const user = req.user
-        return {
-          ...data,
-          user: user?.id,
-        }
-      },
-    ],
-  },
-  upload: {
-    staticDir: 'product_files',
-    mimeTypes: ['image/*', 'font/*', 'application/postscript'],
   },
 }

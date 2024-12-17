@@ -3,7 +3,6 @@ import type { CollectionConfig } from 'payload'
 export const Orders: CollectionConfig = {
   slug: 'orders',
   admin: {
-    // useAsTitle: 'Your Orders',
     description: 'A summary of all your orders on HippoKit.',
   },
   access: {

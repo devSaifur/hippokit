@@ -16,7 +16,7 @@ export const Users: CollectionConfig = {
     },
     {
       name: 'product_files',
-      label: 'Product files',
+      label: 'Product Files',
       admin: {
         condition: () => false,
       },
@@ -41,17 +41,21 @@ export const Users: CollectionConfig = {
   },
   access: {
     read: ({ req: { user } }) => {
-      if (user?.role === 'admin') {
+      if (!user) return false
+
+      if (user.role === 'admin') {
         return true
       }
 
       return {
         id: {
-          equals: user?.id,
+          equals: user.id,
         },
       }
     },
+    create: () => true,
     update: ({ req }) => req.user?.role === 'admin',
+    delete: ({ req }) => req.user?.role === 'admin',
   },
   auth: {
     verify: {

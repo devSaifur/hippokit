@@ -1,22 +1,35 @@
 import { Access, CollectionConfig } from 'payload'
 
-const isAdminOrHasAccessToImages =
-  (): Access =>
-  async ({ req }) => {
-    const user = req.user
+const isAdminOrHasAccessToImages: Access = async ({ req }) => {
+  const user = req.user
 
-    if (!user) return false
-    if (user.role === 'admin') return true
+  if (!user) return false
+  if (user.role === 'admin') return true
 
-    return {
-      user: {
-        equals: user.id,
-      },
-    }
+  return {
+    user: {
+      equals: user.id,
+    },
   }
+}
 
 export const Media: CollectionConfig = {
   slug: 'media',
+  admin: {
+    hidden: ({ user }) => user?.role !== 'admin',
+  },
+  fields: [
+    {
+      name: 'user',
+      type: 'relationship',
+      relationTo: 'users',
+      required: true,
+      hasMany: false,
+      admin: {
+        condition: () => false,
+      },
+    },
+  ],
   hooks: {
     beforeChange: [
       ({ req, data }) => {
@@ -25,20 +38,17 @@ export const Media: CollectionConfig = {
     ],
   },
   access: {
-    read: async ({ req }) => {
-      const referer = req.referrer
+    read: async (args) => {
+      const referer = args.req.referrer
 
-      if (!req.user || !referer?.includes('admin')) {
+      if (!args.req.user || !referer?.includes('admin')) {
         return true
       }
 
-      return isAdminOrHasAccessToImages()({ req })
+      return isAdminOrHasAccessToImages(args)
     },
-    delete: isAdminOrHasAccessToImages(),
-    update: isAdminOrHasAccessToImages(),
-  },
-  admin: {
-    hidden: ({ user }) => user?.role !== 'admin',
+    delete: (args) => isAdminOrHasAccessToImages(args),
+    update: (args) => isAdminOrHasAccessToImages(args),
   },
   upload: {
     staticDir: 'media',
@@ -64,16 +74,4 @@ export const Media: CollectionConfig = {
     ],
     mimeTypes: ['image/*'],
   },
-  fields: [
-    {
-      name: 'user',
-      type: 'relationship',
-      relationTo: 'users',
-      required: true,
-      hasMany: false,
-      admin: {
-        condition: () => false,
-      },
-    },
-  ],
 }

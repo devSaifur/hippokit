@@ -13,9 +13,9 @@ import config from '@payload-config'
 import type { Product } from '@/payload-types'
 
 interface PageProps {
-  params: {
+  params: Promise<{
     productId: string
-  }
+  }>
 }
 
 const BREADCRUMBS = [
@@ -24,7 +24,7 @@ const BREADCRUMBS = [
 ]
 
 export default async function ProductPage({ params }: PageProps) {
-  const { productId } = params
+  const { productId } = await params
   const payload = await getPayload({ config })
 
   const { docs } = await payload.find({

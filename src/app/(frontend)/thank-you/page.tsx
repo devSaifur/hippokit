@@ -2,7 +2,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 import { getPayload } from 'payload'
-import { cookies } from 'next/headers'
 
 import { PaymentStatus } from '@/components/payment-status'
 import { PRODUCT_CATEGORIES } from '@/config'
@@ -12,13 +11,13 @@ import type { Order, Product, ProductFile, User } from '@/payload-types'
 import config from '@payload-config'
 
 interface PageProps {
-  searchParams: {
+  searchParams: Promise<{
     [key: string]: string | string[] | undefined
-  }
+  }>
 }
 
 export default async function ThankYouPage({ searchParams }: PageProps) {
-  const orderId = searchParams.orderId
+  const { orderId } = await searchParams
 
   const { user } = await getServerSideUser()
   const payload = await getPayload({ config })

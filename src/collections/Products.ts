@@ -35,6 +35,7 @@ export const Products: CollectionConfig = {
         const user = req.user
         return { data: data, user: user?.id }
       },
+
       async ({ operation, data }) => {
         const product = data.data as Product
         if (operation === 'create') {
