@@ -34,7 +34,7 @@ export default async function ProductPage({ params }: PageProps) {
       id: {
         equals: productId,
       },
-      approvedForSell: {
+      approvedForSale: {
         equals: 'approved',
       },
     },

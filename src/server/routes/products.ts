@@ -37,10 +37,9 @@ export const productsRoutes = new Hono().post(
     } = await payload.find({
       collection: 'products',
       where: {
-        approvedForSell: {
+        approvedForSale: {
           equals: 'approved',
         },
-        ...parsedQueryOptions,
       },
       sort,
       depth: 1,
