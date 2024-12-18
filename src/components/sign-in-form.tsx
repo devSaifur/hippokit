@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation'
 import { Button } from './ui/button'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import { Label } from './ui/label'
 import { Input } from './ui/input'
 import { useForm } from 'react-hook-form'
@@ -29,8 +29,8 @@ export const SignInForm = () => {
   } = useForm<TAuthCredentialsValidator>({
     resolver: zodResolver(AuthCredentialsValidator),
     defaultValues: {
-      email: '',
-      password: '',
+      email: 'test@email.com',
+      password: '123456789',
     },
   })
 
@@ -53,7 +53,7 @@ export const SignInForm = () => {
     },
     onSuccess: () => {
       toast.success('Signed in successfully')
-      router.reload()
+      router.refresh()
 
       if (origin) {
         router.push(`/${origin}`)

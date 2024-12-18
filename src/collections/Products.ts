@@ -157,7 +157,7 @@ export const Products: CollectionConfig = {
       // ADD USER
       async ({ req, data }) => {
         const user = req.user
-        return { ...data, user: user?.id }
+        return { data, user: user?.id }
       },
 
       async ({ operation, data }) => {
