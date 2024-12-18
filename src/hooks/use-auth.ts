@@ -20,7 +20,7 @@ export function useAuth() {
 
       router.push('/sign-in')
     } catch (err) {
-      toast.error('Failed to sign out, please try agin')
+      toast.error('Failed to sign out, please try again')
     }
   }
 

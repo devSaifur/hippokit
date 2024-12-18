@@ -29,76 +29,13 @@ const isAdminOrHasAccess =
 
 export const Products: CollectionConfig = {
   slug: 'products',
-  hooks: {
-    beforeChange: [
-      async ({ req, data }) => {
-        const user = req.user
-        return { data: data, user: user?.id }
-      },
-
-      async ({ operation, data }) => {
-        const product = data.data as Product
-        if (operation === 'create') {
-          const createdProduct = await stripe.products.create({
-            name: product.name,
-            default_price_data: {
-              currency: 'USD',
-              unit_amount: Math.round(product.price * 100),
-            },
-          })
-
-          const updated = {
-            ...product,
-            stripeId: createdProduct.id,
-            priceId: createdProduct.default_price as string,
-          }
-
-          return updated
-        } else if (operation === 'update') {
-          const updatedProduct = await stripe.products.update(product.stripeId!, {
-            name: data.name,
-            default_price: product.priceId!,
-          })
-
-          const updated = {
-            ...data,
-            stripeId: updatedProduct.id,
-            priceId: updatedProduct.default_price,
-          }
-
-          return updated
-        }
-      },
-    ],
-    afterChange: [
-      async ({ req, doc }) => {
-        const fullUser = await req.payload.findByID({
-          collection: 'users',
-          id: req.user?.id as string,
-        })
-
-        if (fullUser && typeof fullUser === 'object') {
-          const { products } = fullUser
-
-          const allIDs = [
-            ...(products?.map((product) => (typeof product === 'object' ? product.id : product)) ||
-              []),
-          ]
-
-          const createdProductIDs = allIDs.filter((id, index) => allIDs.indexOf(id) === index)
-
-          const dataToUpdate = [...createdProductIDs, doc.id]
-
-          await req.payload.update({
-            collection: 'users',
-            id: fullUser.id,
-            data: {
-              products: dataToUpdate,
-            },
-          })
-        }
-      },
-    ],
+  admin: {
+    useAsTitle: 'name',
+  },
+  access: {
+    read: isAdminOrHasAccess(),
+    update: isAdminOrHasAccess(),
+    delete: isAdminOrHasAccess(),
   },
   fields: [
     {
@@ -215,12 +152,77 @@ export const Products: CollectionConfig = {
       ],
     },
   ],
-  admin: {
-    useAsTitle: 'name',
-  },
-  access: {
-    read: isAdminOrHasAccess(),
-    update: isAdminOrHasAccess(),
-    delete: isAdminOrHasAccess(),
+  hooks: {
+    beforeChange: [
+      // ADD USER
+      async ({ req, data }) => {
+        const user = req.user
+        return { ...data, user: user?.id }
+      },
+
+      async ({ operation, data }) => {
+        const product = data.data as Product
+        if (operation === 'create') {
+          const createdProduct = await stripe.products.create({
+            name: product.name,
+            default_price_data: {
+              currency: 'USD',
+              unit_amount: Math.round(product.price * 100),
+            },
+          })
+
+          const updated = {
+            ...product,
+            stripeId: createdProduct.id,
+            priceId: createdProduct.default_price as string,
+          }
+
+          return updated
+        } else if (operation === 'update') {
+          const updatedProduct = await stripe.products.update(product.stripeId!, {
+            name: data.name,
+            default_price: product.priceId!,
+          })
+
+          const updated = {
+            ...data,
+            stripeId: updatedProduct.id,
+            priceId: updatedProduct.default_price,
+          }
+
+          return updated
+        }
+      },
+    ],
+    afterChange: [
+      // SYNC USER
+      async ({ req, doc }) => {
+        const fullUser = await req.payload.findByID({
+          collection: 'users',
+          id: req.user?.id as string,
+        })
+
+        if (fullUser && typeof fullUser === 'object') {
+          const { products } = fullUser
+
+          const allIDs = [
+            ...(products?.map((product) => (typeof product === 'object' ? product.id : product)) ||
+              []),
+          ]
+
+          const createdProductIDs = allIDs.filter((id, index) => allIDs.indexOf(id) === index)
+
+          const dataToUpdate = [...createdProductIDs, doc.id]
+
+          await req.payload.update({
+            collection: 'users',
+            id: fullUser.id,
+            data: {
+              products: dataToUpdate,
+            },
+          })
+        }
+      },
+    ],
   },
 }

@@ -27,6 +27,7 @@ export const ProductFiles: CollectionConfig = {
   },
   hooks: {
     beforeChange: [
+      // ADD USER
       ({ req, data }) => {
         const user = req.user
         return {
