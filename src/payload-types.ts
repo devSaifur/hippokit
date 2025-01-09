@@ -176,6 +176,8 @@ export interface ProductFile {
   focalY?: number | null;
 }
 /**
+ * A summary of all your orders on HippoKit.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "orders".
  */
