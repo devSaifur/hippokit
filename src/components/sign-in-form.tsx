@@ -15,6 +15,7 @@ import { api } from '@/lib/api-rpc'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
+import { revalidateUserAction } from '@/actions/revalidate'
 
 export const SignInForm = () => {
   const searchParams = useSearchParams()
@@ -51,7 +52,8 @@ export const SignInForm = () => {
       }
       return res.json()
     },
-    onSuccess: () => {
+    onSuccess: async () => {
+      await revalidateUserAction()
       toast.success('Signed in successfully')
       router.refresh()
 
@@ -67,7 +69,8 @@ export const SignInForm = () => {
 
       router.push('/')
     },
-    onError: () => {
+    onError: (err) => {
+      console.error(err)
       toast.error('Something went wrong. Please try again')
     },
   })

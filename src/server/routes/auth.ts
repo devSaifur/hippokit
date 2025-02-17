@@ -79,8 +79,6 @@ export const authRoutes = new Hono()
       const cookieStore = await cookies()
       cookieStore.set('payload-token', token, { secure: true })
 
-      revalidateTag('user')
-
       return c.json({ success: true }, 200)
     } catch (err) {
       console.error(err)

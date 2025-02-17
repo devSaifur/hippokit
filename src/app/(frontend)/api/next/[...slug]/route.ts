@@ -12,7 +12,6 @@ const api = new Hono()
   .route('/payment', paymentRoutes)
   .route('/products', productsRoutes)
   .route('/webhooks', webhooks)
-  .get('/hello', (c) => c.text('hello'))
 
 export const GET = handle(api)
 export const POST = handle(api)

@@ -1,3 +1,4 @@
+import { revalidateUserAction } from '@/actions/revalidate'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
@@ -15,6 +16,8 @@ export function useAuth() {
       })
 
       if (!res.ok) throw new Error('Failed to sign out')
+
+      await revalidateUserAction()
 
       toast.success('Signed out successfully')
 

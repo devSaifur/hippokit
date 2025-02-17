@@ -40,7 +40,6 @@ export async function Navbar() {
 }
 
 async function NavDynamic() {
-  await new Promise((resolve) => setTimeout(resolve, 2000))
   const { user } = await getServerSideUser()
 
   return (
